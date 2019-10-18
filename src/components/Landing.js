@@ -77,7 +77,7 @@ export default class Landing extends Component {
     let content = '';
     let resultContent = '';
 
-    if (!this.state.isLoading && this.state.sentiment !== '') {
+    if (this.state.sentiment !== '') {
       resultContent = (
         <Col className="text-center py-5">
           <h4>{this.state.sentiment}</h4>
