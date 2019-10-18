@@ -6,14 +6,21 @@ import { Col, Row } from 'reactstrap';
 function App() {
   return (
     <div className="App">
-      <Col md="12">
-        <Row>
-          <Col className="text-center py-5">
-            <h1>Twiter Sentiment Analysis</h1>
+      <Col className="layout-page" md="12">
+        <Row className="header-block item-center">
+          <Col
+            style={{
+              backgroundColor: 'rgba(255,255,255, 0.0)',
+              height: '100%'
+            }}
+            className="text-center py-5"
+          >
+            <i style={{ color: '#1da1f2', fontSize: '4em' }} class="fab fa-twitter"></i>
+            <h1 className="pb-5">Twiter Sentiment Analysis</h1>
+            <Landing />
           </Col>
         </Row>
       </Col>
-      <Landing />
     </div>
   );
 }

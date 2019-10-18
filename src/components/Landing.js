@@ -4,6 +4,42 @@ import { Button, Col, Row, FormGroup, Label, Input } from 'reactstrap';
 import axios from 'axios';
 import ReactWordcloud from 'react-wordcloud';
 
+const wordCloudOptions = {
+  colors: [
+    '#1abc9c',
+    '#2ecc71',
+    '#3498db',
+    '#9b59b6',
+    '#34495e',
+    '#16a085',
+    '#27ae60',
+    '#2980b9',
+    '#8e44ad',
+    '#2c3e50',
+    '#f1c40f',
+    '#e67e22',
+    '#e74c3c',
+    '#ecf0f1',
+    '#95a5a6',
+    '#f39c12',
+    '#d35400',
+    '#c0392b',
+    '#bdc3c7',
+    '#7f8c8d'
+  ],
+  deterministic: false,
+  fontFamily: 'impact',
+  fontSizes: [5, 60],
+  fontStyle: 'normal',
+  fontWeight: 'normal',
+  padding: 1,
+  rotations: 3,
+  rotationAngles: [0, 90],
+  scale: 'sqrt',
+  spiral: 'archimedean',
+  transitionDuration: 1000
+};
+
 export default class Landing extends Component {
   constructor(props) {
     super(props);
@@ -65,11 +101,33 @@ export default class Landing extends Component {
     })
       .then(res => {
         console.log('result', res);
-        this.setState({ isLoading: false, sentiment: 'Analysis result is ' + res.data });
+        let resultContent = '';
+        if (res.data === 'positive') {
+          resultContent = (
+            <div>
+              <span>Analysis result is Positive</span>{' '}
+              <i style={{ color: '#1da1f2' }} class="fas fa-thumbs-up text-success"></i>
+            </div>
+          );
+        } else {
+          resultContent = (
+            <div>
+              <span>Analysis result is Negative</span>{' '}
+              <i style={{ color: '#1da1f2' }} class="fas fa-thumbs-down text-danger"></i>
+            </div>
+          );
+        }
+        this.setState({ isLoading: false, sentiment: resultContent });
       })
       .catch(error => {
         console.log('Error in getting analysis result', error);
-        this.setState({ isLoading: false });
+        let resultContent = (
+          <div>
+            <i className="fas fa-exclamation-triangle text-warning"></i>
+            <span>Opps Something went wrong in connecting the Flask Server</span>
+          </div>
+        );
+        this.setState({ isLoading: false, sentiment: resultContent });
       });
   }
 
@@ -134,7 +192,11 @@ export default class Landing extends Component {
         <Row style={{ minHeight: '10vh' }}>{resultContent}</Row>
         <Row style={{ minHeight: '20vh' }}>
           <Col>
-            {this.state.wordObject !== null ? <ReactWordcloud words={this.state.wordObject} /> : ''}
+            {this.state.wordObject !== null ? (
+              <ReactWordcloud options={wordCloudOptions} words={this.state.wordObject} />
+            ) : (
+              ''
+            )}
           </Col>
         </Row>
       </div>
