@@ -143,8 +143,8 @@ def getSentiment():
         print(request)
         text = request.form["text"]
         print(text)
-        # results = sentiment_analyzer_scores(text)
-        results = "positive"
+        results = sentiment_analyzer_scores(text)
+        # results = "positive"
         return _corsify_actual_response(make_response(results))
 
 
